@@ -1,8 +1,8 @@
 ## Interface: 40000
 ## LoadOnDemand: 0
-## Title: GearHUD
-## Notes: Simulate the bloody skull indicator of <Gears of War>.
+## Title: GearHUDPower
+## Notes: Displays low mana.  Adapted from Warbaby's GearHUD.
 ## Notes-zhCN: 模仿战争机器的齿轮血量提示, 在不同的阶段显示不同的材质
-## Author: Warbaby-二区暗影之月<凌翼>
-## SavedVariablesPerCharacter: GearHudSettings
-GearHUD.xml
+## Author: Warbaby-二区暗影之月<凌翼> adapted by Spiralofhope
+## SavedVariablesPerCharacter: GearHudPowerSettings
+GearHUDPower.xml

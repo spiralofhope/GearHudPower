@@ -1,181 +1,176 @@
 --血量阀值, 血量处于在两个值之间时显示对应材质, 
 --血量高于第一个值则不显示, 如果第一个值为100则一直显示,
 --血量低于最后一个值也不显示, 如果希望死亡也有骷髅, 请设置为-1
-GEAR_HUD_THRESH_HOLD = { 60, 40, 25, 10, 0 };
+GEAR_HUD_POWER_THRESH_HOLD = { 75, 50, 25, 10, 5 };
 
 --距离屏幕中心的偏移位置
-GEAR_HUD_OFFSET = {0, 130}
+GEAR_HUD_POWER_OFFSET = {0, 130};
 
 --挨打提示的停留时间
-GEARHUD_INDICATOR_SHOWTIME = 0.3
+GEARHUDPOWER_INDICATOR_SHOWTIME = 0.3
 --挨打提示的渐隐时间
-GEARHUD_INDICATOR_FADETIME = 0.2
+GEARHUDPOWER_INDICATOR_FADETIME = 0.2
+
+-- FIXME:  Scaling functionality doesn't seem to work.
+GEARHUDPOWER_SCALE = 1.5
 
 --四个材质根据血量比例的透明度范围, 该属性一般不用修改.
-GEAR_HUD_ALPHA = { 
+GEAR_HUD_POWER_ALPHA = { 
 	{1, 1},
 	{1, 1},
 	{1, 1},
 	{0.75, 0.75},
-}
---[[
-GEAR_HUD_ALPHA = { 
-	{0.5, 0.8},
-	{0.7, 0.8},
-	{0.8, 1.0},
-	{0.4, 0.65},
-}
-]]
+};
 
 ------------------------------- 以下为常量, 请勿修改 -----------------------
-GEAR_HUD_CENTER_SIZE=148;
+GEAR_HUD_POWER_CENTER_SIZE=148;
 --{ 齿轮左上角X坐标, Y坐标, 增加的宽度, 增加的高度 }
-GEAR_HUD_TEX_POS = {
+GEAR_HUD_POWER_TEX_POS = {
 	{ 12, 5, 5, 5 },
 	{ 215, 6, 30, 10},
 	{ 254, 164, 100, 10},
 	{ 174, 341, 170, 25},
 }
 
-GearHudSettings = {
-	x = GEAR_HUD_OFFSET[1],
-	y = GEAR_HUD_OFFSET[2],
-	scale = 1,
+GearHudPowerSettings = {
+	x = GEAR_HUD_POWER_OFFSET[1],
+	y = GEAR_HUD_POWER_OFFSET[2],
+	scale = GEARHUDPOWER_SCALE,
 }
 
-function GearHud_OnLoad(self)
+function GearHudPower_OnLoad(self)
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
-	self:RegisterEvent("UNIT_HEALTH");
-	self:RegisterEvent("UNIT_MAXHEALTH");
+	self:RegisterEvent("UNIT_POWER");
+	self:RegisterEvent("UNIT_MAXPOWER");
 	self:RegisterEvent("UNIT_COMBAT");
 	self:RegisterEvent("VARIABLES_LOADED");
 
-	GearHud_Reset();
+	GearHudPower_Reset();
 
-	GearHudTexture2:SetTexCoord(
-		(GEAR_HUD_TEX_POS[1][1] - GEAR_HUD_TEX_POS[2][3])/512,
-		(GEAR_HUD_TEX_POS[1][1] + GEAR_HUD_TEX_POS[2][3] + GEAR_HUD_CENTER_SIZE)/512,
-		(GEAR_HUD_TEX_POS[1][2] - GEAR_HUD_TEX_POS[2][4])/512, 
-		(GEAR_HUD_TEX_POS[1][2] + GEAR_HUD_TEX_POS[2][4] + GEAR_HUD_CENTER_SIZE)/512
+	GearHudPowerTexture2:SetTexCoord(
+		(GEAR_HUD_POWER_TEX_POS[1][1] - GEAR_HUD_POWER_TEX_POS[2][3])/512,
+		(GEAR_HUD_POWER_TEX_POS[1][1] + GEAR_HUD_POWER_TEX_POS[2][3] + GEAR_HUD_POWER_CENTER_SIZE)/512,
+		(GEAR_HUD_POWER_TEX_POS[1][2] - GEAR_HUD_POWER_TEX_POS[2][4])/512, 
+		(GEAR_HUD_POWER_TEX_POS[1][2] + GEAR_HUD_POWER_TEX_POS[2][4] + GEAR_HUD_POWER_CENTER_SIZE)/512
 	)
 end
 
-function GearHud_UpdateScale()
-	GearHud:SetScale(GearHudSettings.scale);
-	if(GearHudIndicator) then GearHudIndicator:SetScale(GearHudSettings.scale); end
-	if(GearHudIndicator) then GearHudIndicator:Show(); end
+function GearHudPower_UpdateScale()
+  -- FIXME:  There is no GearHudPower:SetScale()
+	GearHudPower:SetScale(GearHudPowerSettings.scale);
+	if(GearHudPowerIndicator) then GearHudPowerIndicator:SetScale(GearHudPowerSettings.scale); end
+	if(GearHudPowerIndicator) then GearHudPowerIndicator:Show(); end
 end
 
-function GearHud_Reset()
-	GearHudSettings.scale = 1;
-	GearHud:ClearAllPoints();
-	GearHud:SetPoint("CENTER", UIParent, "CENTER", GearHudSettings.x, GearHudSettings.y);
-	GearHud_UpdateScale();
+function GearHudPower_Reset()
+	GearHudPowerSettings.scale = GEARHUDPOWER_SCALE;
+	GearHudPower:ClearAllPoints();
+	GearHudPower:SetPoint("CENTER", UIParent, "CENTER", GearHudPowerSettings.x, GearHudPowerSettings.y);
+	GearHudPower_UpdateScale();
 end
 
-function GearHud_OnEvent(event, arg1, arg2)
+function GearHudPower_OnEvent(event, arg1, arg2)
 	if(event=="VARIABLES_LOADED") then
-		GearHud_BuildDrag();
-		GearHud_UpdateScale();
-
-	elseif(event=="PLAYER_ENTERING_WORLD") then
-		GearHud_Lock();
-
-	elseif((event=="UNIT_HEALTH" or event=="UNIT_MAXHEALTH") and arg1=="player") then
-		GearHud_Update();
+		GearHudPower_BuildDrag();
+    -- FIXME:  Not working?
+		GearHudPower_UpdateScale();
+		GearHudPower_Lock();
+	elseif((event=="UNIT_POWER" or event=="UNIT_MAXPOWER") and arg1=="player") then
+		GearHudPower_Update();
+  -- TODO:  I'm not sure about this bit.  Wounding doesn't make sense.
 	elseif(event=="UNIT_COMBAT" and arg1=="player" and arg2=="WOUND") then
-		GearHudIndicator:Show();
-		GearHudIndicator.timer=GEARHUD_INDICATOR_SHOWTIME + GEARHUD_INDICATOR_FADETIME; 
-		GearHudIndicator:SetAlpha(1.0);
+		GearHudPowerIndicator:Show();
+		GearHudPowerIndicator.timer=GEARHUDPOWER_INDICATOR_SHOWTIME + GEARHUDPOWER_INDICATOR_FADETIME; 
+		GearHudPowerIndicator:SetAlpha(1.0);
 	end
 end
 
-function GearHud_Update(hp)
-	if(not hp) then hp = UnitHealth("player")/UnitHealthMax("player")*100; end
-	if(UnitIsDead("player") or UnitIsGhost("player")) then hp = 0; end
-	if(GearHud.tex and GearHud.tex:IsVisible()) then hp = 1 end;
-	for i=1, table.getn(GEAR_HUD_THRESH_HOLD) do
-		if(hp>GEAR_HUD_THRESH_HOLD[i]) then
+function GearHudPower_Update(power)
+	if(not power) then power = UnitPower("player")/UnitPowerMax("player")*100; end
+	if(UnitIsDead("player") or UnitIsGhost("player")) then power = 0; end
+	if(GearHudPower.tex and GearHudPower.tex:IsVisible()) then power = 1 end;
+	for i=1, table.getn(GEAR_HUD_POWER_THRESH_HOLD) do
+		if(power>GEAR_HUD_POWER_THRESH_HOLD[i]) then
 			if(i==3) then
-				GearHudTexture2:Show();
+				GearHudPowerTexture2:Show();
 			else
-				GearHudTexture2:Hide();
+				GearHudPowerTexture2:Hide();
 			end
 			if(i==1) then
-				GearHud:Hide();
+				GearHudPower:Hide();
 			else
-				GearHud:Show();
-				GearHud:SetWidth(GEAR_HUD_CENTER_SIZE + GEAR_HUD_TEX_POS[i-1][3] * 2);
-				GearHud:SetHeight(GEAR_HUD_CENTER_SIZE + GEAR_HUD_TEX_POS[i-1][4] * 2);
-				GearHudTexture:SetTexCoord(
-					(GEAR_HUD_TEX_POS[i-1][1] - GEAR_HUD_TEX_POS[i-1][3])/512,
-					(GEAR_HUD_TEX_POS[i-1][1] + GEAR_HUD_TEX_POS[i-1][3] + GEAR_HUD_CENTER_SIZE)/512,
-					(GEAR_HUD_TEX_POS[i-1][2] - GEAR_HUD_TEX_POS[i-1][4])/512, 
-					(GEAR_HUD_TEX_POS[i-1][2] + GEAR_HUD_TEX_POS[i-1][4] + GEAR_HUD_CENTER_SIZE)/512
+				GearHudPower:Show();
+				GearHudPower:SetWidth(GEAR_HUD_POWER_CENTER_SIZE + GEAR_HUD_POWER_TEX_POS[i-1][3] * 2);
+				GearHudPower:SetHeight(GEAR_HUD_POWER_CENTER_SIZE + GEAR_HUD_POWER_TEX_POS[i-1][4] * 2);
+				GearHudPowerTexture:SetTexCoord(
+					(GEAR_HUD_POWER_TEX_POS[i-1][1] - GEAR_HUD_POWER_TEX_POS[i-1][3])/512,
+					(GEAR_HUD_POWER_TEX_POS[i-1][1] + GEAR_HUD_POWER_TEX_POS[i-1][3] + GEAR_HUD_POWER_CENTER_SIZE)/512,
+					(GEAR_HUD_POWER_TEX_POS[i-1][2] - GEAR_HUD_POWER_TEX_POS[i-1][4])/512, 
+					(GEAR_HUD_POWER_TEX_POS[i-1][2] + GEAR_HUD_POWER_TEX_POS[i-1][4] + GEAR_HUD_POWER_CENTER_SIZE)/512
 				)
-				local factor = (GEAR_HUD_THRESH_HOLD[i-1]-hp)/(GEAR_HUD_THRESH_HOLD[i-1]-GEAR_HUD_THRESH_HOLD[i]);
-				local alpha = GEAR_HUD_ALPHA[i-1][1] + (GEAR_HUD_ALPHA[i-1][2]-GEAR_HUD_ALPHA[i-1][1])*factor;
-				GearHud:SetAlpha(alpha);
+				local factor = (GEAR_HUD_POWER_THRESH_HOLD[i-1]-power)/(GEAR_HUD_POWER_THRESH_HOLD[i-1]-GEAR_HUD_POWER_THRESH_HOLD[i]);
+				local alpha = GEAR_HUD_POWER_ALPHA[i-1][1] + (GEAR_HUD_POWER_ALPHA[i-1][2]-GEAR_HUD_POWER_ALPHA[i-1][1])*factor;
+				GearHudPower:SetAlpha(alpha);
 			end
 			break;
 		end
 		if(i==5) then
-			GearHud:Hide();
+			GearHudPower:Hide();
 		end
 	end
 end
 
-function GearHudIndicator_OnUpdate(self, arg1)
+function GearHudPowerIndicator_OnUpdate(self, arg1)
 	self.timer = self.timer - arg1;
 	if(self.timer <= 0) then
 		self:Hide();
-	elseif (self.timer <= GEARHUD_INDICATOR_FADETIME) then
-		self:SetAlpha( self.timer/GEARHUD_INDICATOR_FADETIME );
+	elseif (self.timer <= GEARHUDPOWER_INDICATOR_FADETIME) then
+		self:SetAlpha( self.timer/GEARHUDPOWER_INDICATOR_FADETIME );
 	end
 end
 
-function GearHud_BuildDrag()
-	GearHud:EnableMouse(false);
-	GearHud:SetScript("OnMouseDown", function() GearHud:StartMoving() end);
-	GearHud:SetScript("OnMouseUp", function() GearHud:StopMovingOrSizing() end);
+function GearHudPower_BuildDrag()
+	GearHudPower:EnableMouse(false);
+	GearHudPower:SetScript("OnMouseDown", function() GearHudPower:StartMoving() end);
+	GearHudPower:SetScript("OnMouseUp", function() GearHudPower:StopMovingOrSizing() end);
 	
-	GearHud.tex = GearHud.tex or GearHud:CreateTexture("$parent_T_Green", "OVERLAY");
-	GearHud.tex:SetTexture(0, 0.6, 0, 0.5);
-	GearHud.tex:SetAllPoints(GearHud);
-	GearHud.tex:Hide();
+	GearHudPower.tex = GearHudPower.tex or GearHudPower:CreateTexture("$parent_T_Green", "OVERLAY");
+	GearHudPower.tex:SetTexture(0, 0.6, 0, 0.5);
+	GearHudPower.tex:SetAllPoints(GearHudPower);
+	GearHudPower.tex:Hide();
 	
-	GearHud.Background = GearHud.tex;
+	GearHudPower.Background = GearHudPower.tex;
 end
 
-function GearHud_Lock()
-	GearHud:EnableMouse(false);
-	if GearHud.tex then
-		GearHud.tex:Hide();
-		GearHud.resizeButton:Hide();
+function GearHudPower_Lock()
+	GearHudPower:EnableMouse(false);
+	if GearHudPower.tex then
+		GearHudPower.tex:Hide();
+		GearHudPower.resizeButton:Hide();
 	end
-	GearHud_Update();
-	GearHudIndicator:Show();
+	GearHudPower_Update();
+	GearHudPowerIndicator:Show();
 end
 
-function GearHud_UnLock()
-	GearHud:EnableMouse(true);
-	GearHud:Show();
-	GearHud.tex:Show();
-	GearHud.resizeButton:Show();
-	GearHud_Update();
+function GearHudPower_UnLock()
+	GearHudPower:EnableMouse(true);
+	GearHudPower:Show();
+	GearHudPower.tex:Show();
+	GearHudPower.resizeButton:Show();
+	GearHudPower_Update();
 end
 
-SLASH_GEARHUD1 = "/gearhud";
-SLASH_GEARHUD2 = "/gh";
-SlashCmdList["GEARHUD"] = function(msg)
+SLASH_GEARHUDPOWER1 = "/gearhudpower";
+SLASH_GEARHUDPOWER2 = "/ghp";
+SlashCmdList["GEARHUDPOWER"] = function(msg)
 	if(msg and strlower(msg)=="reset") then
-		GearHud_Reset();
-		GearHud_UnLock();
+		GearHudPower_Reset();
+		GearHudPower_UnLock();
 	else
-		if(GearHud.tex:IsVisible()) then
-			GearHud_Lock();
+		if(GearHudPower.tex:IsVisible()) then
+			GearHudPower_Lock();
 		else
-			GearHud_UnLock();
+			GearHudPower_UnLock();
 		end		
 	end
 end
