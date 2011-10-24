@@ -1,8 +1,7 @@
 ## Interface: 40000
 ## LoadOnDemand: 0
 ## Title: GearHUDPower
-## Notes: Displays low mana.  Adapted from Warbaby's GearHUD.
-## Notes-zhCN: 模仿战争机器的齿轮血量提示, 在不同的阶段显示不同的材质
-## Author: Warbaby-二区暗影之月<凌翼> adapted by Spiralofhope
+## Notes: Displays low mana.  Adapted from GearHUD by Warbaby-二区暗影之月<凌翼>.
+## Author: Spiralofhope
 ## SavedVariablesPerCharacter: GearHudPowerSettings
 GearHUDPower.xml
