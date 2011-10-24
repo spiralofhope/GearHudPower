@@ -2,7 +2,7 @@
 
 GearHUDPower is a World of Warcraft AddOn (Lua).
 
-It is a hackish modification of "warbaby's":http://www.curseforge.com/profiles/warbaby/ AddOn "GearHUD":http://wow.curseforge.com/addons/gear_hud/ to show power instead of health.
+It is a hackish modification of [warbaby's](http://www.curseforge.com/profiles/warbaby/) AddOn [GearHUD](http://wow.curseforge.com/addons/gear_hud/) to show power instead of health.
 
 It simulates the Gears of War cog/skull health indicator, but for power.
 
@@ -25,4 +25,4 @@ Find your AddOn installation location, (maybe `C:\Program Files\World of Warcraf
 
 # Todo, known bugs
 
-"GearHudPower.lua":https://github.com/spiralofhope/GearHUDPower/blob/master/GearHudPower.lua will have such lists.  Also search for FIXME, TODO.
+[GearHudPower.lua](https://github.com/spiralofhope/GearHUDPower/blob/master/GearHudPower.lua) will have such lists.  Also search for FIXME, TODO.
