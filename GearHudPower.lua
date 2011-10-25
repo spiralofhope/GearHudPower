@@ -3,15 +3,36 @@
 --血量低于最后一个值也不显示, 如果希望死亡也有骷髅, 请设置为-1
 GEAR_HUD_POWER_THRESH_HOLD = { 75, 50, 25, 10, 5 };
 
+--
+-- User configuration
+--
+-- You can change these settings and see your changes immediately in the game by typing:
+--   /console reloadui
+-- You can reduce your health and mana by removing and re-wearing your gear.  I make a gear set which has all empty slots, which makes this very easy to do.
+-- You can also edit your per-character settings directly.
+-- I'm not entirely sure how this all works, so you may have to quit the game and delete that file if you're having difficulties.
+--   /World of Warcraft/WTF/Account/ACCOUNT_NAME/SERVER_NAME/CHARACTER_NAME/SavedVariables/GearHudPower.lua
+-- Example contents:
+--   GearHudPowerSettings = {
+           --["y"] = 40,
+           --["x"] = 0,
+           --["scale"] = 1.5,
+--   }
+
 --距离屏幕中心的偏移位置
-GEAR_HUD_POWER_OFFSET = {0, 130};
+-- {x, y}
+-- Higher x moves to the right
+-- Higher y moves up
+GEAR_HUD_POWER_OFFSET = {0, 40};
+
+-- This is good for a scale of 1.5
+-- GEAR_HUD_POWER_OFFSET = {0, 40};
 
 --挨打提示的停留时间
 GEARHUDPOWER_INDICATOR_SHOWTIME = 0.3
 --挨打提示的渐隐时间
 GEARHUDPOWER_INDICATOR_FADETIME = 0.2
 
--- FIXME:  Scaling functionality doesn't seem to work.
 GEARHUDPOWER_SCALE = 1.5
 
 --四个材质根据血量比例的透明度范围, 该属性一般不用修改.
