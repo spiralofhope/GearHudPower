@@ -8,7 +8,7 @@ It simulates the Gears of War cog/skull health indicator, but for power.
 
 GearHUD and GearHUDPower can both run at the same time.
 
-`GEAR_HUD_POWER.tga` is derived from EPIC game Gears of War.
+`GEAR_HUD_POWER.tga` is derived from the [Epic Games](http://en.wikipedia.org/wiki/Epic_Games)' [Gears of War](http://en.wikipedia.org/wiki/Gears_of_War).
 
 # Customization
 
