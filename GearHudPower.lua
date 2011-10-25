@@ -1,7 +1,7 @@
 --血量阀值, 血量处于在两个值之间时显示对应材质, 
 --血量高于第一个值则不显示, 如果第一个值为100则一直显示,
 --血量低于最后一个值也不显示, 如果希望死亡也有骷髅, 请设置为-1
-GEAR_HUD_POWER_THRESH_HOLD = { 75, 50, 25, 10, 5 };
+GEAR_HUD_POWER_THRESHHOLD = { 75, 50, 25, 10, 5 };
 
 --
 -- User configuration
@@ -110,8 +110,8 @@ function GearHudPower_Update(power)
 	if(not power) then power = UnitPower("player")/UnitPowerMax("player")*100; end
 	if(UnitIsDead("player") or UnitIsGhost("player")) then power = 0; end
 	if(GearHudPower.tex and GearHudPower.tex:IsVisible()) then power = 1 end;
-	for i=1, table.getn(GEAR_HUD_POWER_THRESH_HOLD) do
-		if(power>GEAR_HUD_POWER_THRESH_HOLD[i]) then
+	for i=1, table.getn(GEAR_HUD_POWER_THRESHHOLD) do
+		if(power>GEAR_HUD_POWER_THRESHHOLD[i]) then
 			if(i==3) then
 				GearHudPowerTexture2:Show();
 			else
@@ -129,7 +129,7 @@ function GearHudPower_Update(power)
 					(GEAR_HUD_POWER_TEX_POS[i-1][2] - GEAR_HUD_POWER_TEX_POS[i-1][4])/512, 
 					(GEAR_HUD_POWER_TEX_POS[i-1][2] + GEAR_HUD_POWER_TEX_POS[i-1][4] + GEAR_HUD_POWER_CENTER_SIZE)/512
 				)
-				local factor = (GEAR_HUD_POWER_THRESH_HOLD[i-1]-power)/(GEAR_HUD_POWER_THRESH_HOLD[i-1]-GEAR_HUD_POWER_THRESH_HOLD[i]);
+				local factor = (GEAR_HUD_POWER_THRESHHOLD[i-1]-power)/(GEAR_HUD_POWER_THRESHHOLD[i-1]-GEAR_HUD_POWER_THRESHHOLD[i]);
 				local alpha = GEAR_HUD_POWER_ALPHA[i-1][1] + (GEAR_HUD_POWER_ALPHA[i-1][2]-GEAR_HUD_POWER_ALPHA[i-1][1])*factor;
 				GearHudPower:SetAlpha(alpha);
 			end

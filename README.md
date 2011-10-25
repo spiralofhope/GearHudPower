@@ -12,12 +12,19 @@ GearHUD and GearHUDPower can both run at the same time.
 
 # Customization
 
-Find your AddOn installation location, (maybe `C:\Program Files\World of Warcraft\`), and edit `GearHudPower.lua` to make changes.
+Edit `World of Warcraft/Interface/AddOns/GearHUDPower/GearHudPower.lua` to make changes.  Additional instructions will be found in there.
 
 ```
-GEAR_HUD_THRESH_HOLD = { 60, 40, 25, 10, 0 };
-GEAR_HUD_OFFSET = {0, 130}
+GEAR_HUD_POWER_THRESHHOLD = { 75, 50, 25, 10, 5 };
+GEAR_HUD_OFFSET = {0, 40}
+GEARHUDPOWER_SCALE = 1.5
 ```
+
+## Editing the image
+
+Edit `World of Warcraft/Interface/AddOns/GearHUDPower/GEAR_HUD_POWER.tga`
+
+You can change the colour or even the graphic.
 
 # Usage
 
@@ -25,6 +32,6 @@ GEAR_HUD_OFFSET = {0, 130}
 - `/gearhud` or `/gh reset` to reset to default.
 - Right-click the resize handler to lock.
 
-# Todo, known bugs
+# TODOs and known bugs
 
 [GearHudPower.lua](https://github.com/spiralofhope/GearHUDPower/blob/master/GearHudPower.lua) will have such lists.  Also search for FIXME, TODO.
