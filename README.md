@@ -14,8 +14,10 @@ GearHUD and GearHUDPower can both run at the same time.
 
 Find your AddOn installation location, (maybe `C:\Program Files\World of Warcraft\`), and edit `GearHudPower.lua` to make changes.
 
-  GEAR_HUD_THRESH_HOLD = { 60, 40, 25, 10, 0 };
-  GEAR_HUD_OFFSET = {0, 130}
+```
+GEAR_HUD_THRESH_HOLD = { 60, 40, 25, 10, 0 };
+GEAR_HUD_OFFSET = {0, 130}
+```
 
 # Usage
 
