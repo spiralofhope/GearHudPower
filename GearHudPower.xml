@@ -1,14 +1,14 @@
 <Ui xmlns="http//www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/FrameXML/UI.xsd">
-	<Script file="GearHUDPower.lua"/>
+	<Script file="GearHudPower.lua"/>
 	<Frame name="GearHudPower" toplevel="true" parent="UIParent" hidden="true" alpha="1.0" movable="true" resizable="true">
 		<Size>
 			<AbsDimension x="148" y="148"/>
 		</Size>
 		<Layers>
 			<Layer level="BACKGROUND">
-				<Texture name="GearHudPowerTexture" file="Interface\Addons\GearHudPower\GEAR_HUD_POWER" alphaMode="BLEND">
+				<Texture name="GearHudPowerTexture" file="Interface\Addons\GearHudPower\GearHudPower" alphaMode="BLEND">
 				</Texture>
-				<Texture name="GearHudPowerTexture2" file="Interface\Addons\GearHudPower\GEAR_HUD_POWER" alphaMode="BLEND" hidden="true">
+				<Texture name="GearHudPowerTexture2" file="Interface\Addons\GearHudPower\GearHudPower" alphaMode="BLEND" hidden="true">
 				</Texture>			
 			</Layer>
 		</Layers>
@@ -24,30 +24,32 @@
 				</Anchors>
 				<Scripts>
 					<OnMouseDown>
-						if(button=="RightButton") then
+						if( button=="RightButton" ) then
 							GearHudPower_Lock();
 							return
 						end
 						local chatFrame = self:GetParent();
 						chatFrame.w = chatFrame:GetWidth();
 						chatFrame.h = chatFrame:GetHeight();
-						self:SetButtonState("PUSHED", true);
-						SetCursor("UI-Cursor-Size");	--Hide the cursor
+						self:SetButtonState( "PUSHED", true );
+          	-- Hide the cursor:
+						SetCursor( "UI-Cursor-Size" );
 
 						self:GetHighlightTexture():Hide();
 
-						chatFrame:StartSizing("RIGHT");
+						chatFrame:StartSizing( "RIGHT" );
 					</OnMouseDown>
 					<OnMouseUp>
-						self:SetButtonState("NORMAL", false);
-						SetCursor(nil); --Show the cursor again
+						self:SetButtonState( "NORMAL", false);
+            -- Show the cursor again:
+						SetCursor( nil );
 
 						self:GetHighlightTexture():Show();
 						
 						self:GetParent():StopMovingOrSizing();
-						GearHudPowerSettings.scale = self:GetParent():GetWidth()*self:GetParent():GetScale()/self:GetParent().w;
-						self:GetParent():SetWidth(self:GetParent().w)
-						self:GetParent():SetHeight(self:GetParent().h)
+						GearHudPowerSettings.scale = self:GetParent():GetWidth() * self:GetParent():GetScale() / self:GetParent().w;
+						self:GetParent():SetWidth( self:GetParent().w )
+						self:GetParent():SetHeight( self:GetParent().h )
 						GearHudPower_UpdateScale();
 					</OnMouseUp>
 				</Scripts>
@@ -58,10 +60,10 @@
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				GearHudPower_OnLoad(self);
+				GearHudPower_OnLoad( self );
 			</OnLoad>
 			<OnEvent>
-				GearHudPower_OnEvent(event, ...);
+				GearHudPower_OnEvent( event, ... );
 			</OnEvent>
 		</Scripts>
 	</Frame>
@@ -78,18 +80,18 @@
 		</Anchors>
 		<Layers>
 			<Layer level="BACKGROUND">
-				<Texture file="Interface\Addons\GearHudPower\GEAR_HUD_POWER" alphaMode="ADD">
+				<Texture file="Interface\Addons\GearHudPower\GearHudPower" alphaMode="ADD">
 					<TexCoords left="0.005859375" right="0.318359375" top="0.328125" bottom="0.640625"/>
 				</Texture>
 			</Layer>
 		</Layers>
 		<Scripts>
 			<OnShow>
-				self.timer = GEARHUDPOWER_INDICATOR_SHOWTIME + GEARHUDPOWER_INDICATOR_FADETIME; 
+				self.timer = GearHudPower_indicator_showtime + GearHudPower_indicator_fadetime; 
 				self:SetAlpha(1);
 			</OnShow>
 			<OnUpdate>
-				GearHudPowerIndicator_OnUpdate(self, elapsed);
+				GearHudPowerIndicator_OnUpdate( self, elapsed );
 			</OnUpdate>
 			<OnHide>
 				self.timer = 0;
@@ -97,6 +99,7 @@
 		</Scripts>
 	</Frame>
 
+<!-- TODO:  Was this debugging support?  Does it work? -->
 <!-- 取消注释, 则可以在游戏中运行/script GearHudPower_Debug=1, 测试不同血量的变化情况
 	<Frame>
 		<Scripts>

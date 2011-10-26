@@ -1,7 +1,7 @@
 ## Interface: 40000
 ## LoadOnDemand: 0
-## Title: GearHUDPower
+## Title: GearHudPower
 ## Notes: Displays low mana.  Adapted from GearHUD by Warbaby-二区暗影之月<凌翼>.
 ## Author: Spiralofhope
 ## SavedVariablesPerCharacter: GearHudPowerSettings
-GearHUDPower.xml
+GearHudPower.xml

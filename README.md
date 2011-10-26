@@ -15,9 +15,9 @@ GearHUD and GearHUDPower can both run at the same time.
 Edit `World of Warcraft/Interface/AddOns/GearHUDPower/GearHudPower.lua` to make changes.  Additional instructions will be found in there.
 
 ```
-GEAR_HUD_POWER_THRESHHOLD = { 75, 50, 25, 10, 5 };
-GEAR_HUD_OFFSET = {0, 40}
-GEARHUDPOWER_SCALE = 1.5
+GearHudPower_threshhold = { 75, 50, 25, 10, 5 };
+GearHudPower_offset = { 0, 40 };
+GearHudPower_scale = 1.5
 ```
 
 ## Editing the image
